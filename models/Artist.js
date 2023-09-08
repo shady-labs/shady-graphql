@@ -7,4 +7,7 @@ const artistSchema = new Schema({
   genre: String,
 });
 
+artistSchema.index({ name: 'text' });
+artistSchema.index({ '$**': 'text'});
+
 module.exports = model('Artist', artistSchema);

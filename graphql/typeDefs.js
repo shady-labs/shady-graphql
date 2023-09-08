@@ -31,6 +31,8 @@ module.exports = gql`
 
     artist(ID:ID!): Artist!
     getArtists(totalArtist: Int): [Artist]
+    getAllArtists: [Artist]
+    getArtistsByName(name: String, pageNumber: Int, pageSize: Int): [Artist]  
   }
 
   type Mutation {

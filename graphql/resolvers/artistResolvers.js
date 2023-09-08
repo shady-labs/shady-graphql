@@ -48,5 +48,23 @@ module.exports = {
     async getArtists(_, { totalArtist }) {
       return await Artist.find().sort({ createdAt: -1 }).limit(totalArtist);
     },
+    async getAllArtists() {
+      return await Artist.find().sort({ createdAt: -1 });
+    },
+    async getArtistsByName(_, { name, pageSize, pageNumber }) {
+      if(!pageSize) pageSize = 10;
+      if(!pageNumber) pageNumber = 1;
+      if(!name) return await Artist.find().skip((pageNumber-1)*pageSize).limit(pageSize);
+      return await Artist.find({
+        $or: [
+          {
+            name: {
+              "$regex": ".*" + name + "",
+              "$options": "i"
+            },
+        },
+        ]
+      }).skip((pageNumber-1)*pageSize).limit(pageSize);
+    }
   },
 };
