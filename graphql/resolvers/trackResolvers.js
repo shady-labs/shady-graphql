@@ -67,13 +67,10 @@ module.exports = {
     async getAllTracks() {
       return await Track.find();
     },
-    async getTracksByName(_, { name, pageSize, pageNumber }) {
-      if (!pageSize) pageSize = 10;
-      if (!pageNumber) pageNumber = 1;
+    async getTracksByName(_, { name}) {
       if (!name)
         return await Track.find()
-          .skip((pageNumber - 1) * pageSize)
-          .limit(pageSize);
+          .limit(10);
       return await Track.find({
         $or: [
           {
@@ -84,9 +81,21 @@ module.exports = {
           },
         ],
       })
-        .skip((pageNumber - 1) * pageSize)
-        .limit(pageSize);
+        .limit(10);
     },
-    
-  },
+    async getTracksByArtistId(_, { ID}) {
+      if (!ID){
+        return await Track.find()
+          .limit(10);
+      }
+
+      const artist = await Artist.findById(ID);
+      console.log(artist);
+      const tracks=[];
+      for(i=0; i<artist.tracks.length;i++){
+        tracks.push(Track.findById(artist.tracks[i]));
+      }
+      return tracks;
+    }
+  }
 };

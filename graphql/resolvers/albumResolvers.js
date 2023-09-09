@@ -56,13 +56,10 @@ module.exports = {
     async getAllAlbums() {
       return await Album.find();
     },
-    async getAlbumsByName(_, { name, pageSize, pageNumber }) {
-      if (!pageSize) pageSize = 10;
-      if (!pageNumber) pageNumber = 1;
+    async getAlbumsByName(_, { name}) {
       if (!name)
         return await Album.find()
-          .skip((pageNumber - 1) * pageSize)
-          .limit(pageSize);
+          .limit(10);
       return await Album.find({
         $or: [
           {
@@ -73,8 +70,7 @@ module.exports = {
           },
         ],
       })
-        .skip((pageNumber - 1) * pageSize)
-        .limit(pageSize);
+        .limit(10);
     },
   },
 };

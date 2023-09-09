@@ -56,17 +56,18 @@ module.exports = gql`
     album(ID: ID!): Album!
     getAlbum(totalAlbums: Int): [Album]
     getAllAlbums: [Album]!
-    getAlbumsByName(name: String, pageNumber: Int, pageSize: Int): [Track]
+    getAlbumsByName(name: String): [Track]
 
     track(ID: ID!): Track!
     getTracks(totalTracks: Int): [Track]
     getAllTracks: [Track]!
-    getTracksByName(name: String, pageNumber: Int, pageSize: Int): [Track]
+    getTracksByName(name: String): [Track]
+    getTracksByArtistId(ID: ID!): [Track]
 
-    artist(ID: ID!): Artist!
+    artist(String: String!): Artist!
     getArtists(totalArtist: Int): [Artist]
     getAllArtists: [Artist]
-    getArtistsByName(name: String, pageNumber: Int, pageSize: Int): [Artist]
+    getArtistsByName(name: String): [Artist]
   }
 
   type Mutation {

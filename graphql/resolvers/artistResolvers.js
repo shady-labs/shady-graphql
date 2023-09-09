@@ -51,10 +51,8 @@ module.exports = {
     async getAllArtists() {
       return await Artist.find();
     },
-    async getArtistsByName(_, { name, pageSize, pageNumber }) {
-      if(!pageSize) pageSize = 10;
-      if(!pageNumber) pageNumber = 1;
-      if(!name) return await Artist.find().skip((pageNumber-1)*pageSize).limit(pageSize);
+    async getArtistsByName(_, { name}) {
+      if(!name) return await Artist.find().limit(10);
       return await Artist.find({
         $or: [
           {
@@ -64,7 +62,7 @@ module.exports = {
             },
         },
         ]
-      }).skip((pageNumber-1)*pageSize).limit(pageSize);
+      }).limit(10);
     }
   },
 };
