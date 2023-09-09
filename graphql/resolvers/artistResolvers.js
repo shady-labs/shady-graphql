@@ -49,7 +49,7 @@ module.exports = {
       return await Artist.find().sort({ createdAt: -1 }).limit(totalArtist);
     },
     async getAllArtists() {
-      return await Artist.find().sort({ createdAt: -1 });
+      return await Artist.find();
     },
     async getArtistsByName(_, { name, pageSize, pageNumber }) {
       if(!pageSize) pageSize = 10;
