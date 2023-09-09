@@ -9,8 +9,9 @@ module.exports = gql`
   }
 
   type Track {
+    _id: ID!
     name: String
-    artists: [Artist]
+    artists: [ID]
     trackImage: String
     trackUrl: String
     genre: [String]
@@ -18,10 +19,12 @@ module.exports = gql`
   }
 
   type Artist {
+    _id: ID!
     name: String
     image: String
     description: String
     genre: String
+    tracks: [ID!]
   }
 
   input AlbumInput {
@@ -33,11 +36,12 @@ module.exports = gql`
 
   input TrackInput {
     name: String
-    artists: [String]
     trackImage: String
     trackUrl: String
     genre: [String]
     duration: Int
+    artistsId: [ID]
+    artistsName: [String]
   }
 
   input ArtistInput {
@@ -45,6 +49,7 @@ module.exports = gql`
     image: String
     description: String
     genre: String
+    tracks: [ID!]
   }
 
   type Query {

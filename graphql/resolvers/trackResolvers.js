@@ -1,23 +1,36 @@
+const Artist = require("../../models/Artist");
 const Track = require("../../models/Track");
 
 module.exports = {
   Mutation: {
     async uploadTrack(
       _,
-      { trackInput: { name, artists, trackImage, trackUrl, genre, duration } }
+      { trackInput}
     ) {
       const uploadedTrack = new Track({
-        name: name,
-        artists: artists,
-        trackImage: trackImage,
-        trackUrl: trackUrl,
-        genre: genre,
-        duration: duration,
+        name: trackInput.name,
+        // artists: trackInput.artists,
+        trackImage: trackInput.trackImage,
+        trackUrl: trackInput.trackUrl,
+        genre: trackInput.genre,
+        duration: trackInput.duration,
       });
+      uploadedTrack.artists.push(trackInput.artists)
+
+      const artist = await Artist.findById(trackInput.artists.name);
+      //console.log(artist);
 
       const res = await uploadedTrack.save();
+      if(!artist) {
+        throw new Error("Artist not found");
+      }
+      artist.tracks.push(res._id);
+      await artist.save();
+      console.log(artist);
+
+      
       //Mongo Updated
-      console.log(res._doc);
+      // console.log(res._doc);
 
       //Getting Tracks
       return {
@@ -74,5 +87,6 @@ module.exports = {
         .skip((pageNumber - 1) * pageSize)
         .limit(pageSize);
     },
+    
   },
 };
