@@ -15,9 +15,8 @@ module.exports = {
         duration: trackInput.duration,
       });
       uploadedTrack.artistsId.push(trackInput.artistsId)
-      console.log("uploadedTrack.artistsId: "+trackInput.artistsId)
-      //const artist = await Artist.findById(trackInput.artistsId);
-      console.log(trackInput.artistsId.length)
+
+
       for(i=0; i<trackInput.artistsId.length;i++){
         console.log("artistId: "+trackInput.artistsId[i])
         var name = '';
@@ -28,24 +27,12 @@ module.exports = {
         artist.tracksName.push(uploadedTrack.name);
         artist.save();
         });
-
-        // if(!artist){
-        //   throw new Error("Artist not found, at index: "+i+" of artistsId: "+trackInput.artistsId[i]+"");
-        // }
-        //artists.push(artist);
         uploadedTrack.artistsName.push(name);
-        // artist.tracksId.push(uploadedTrack._id);
-        // artist.tracksName.push(uploadedTrack.name);
-        //await artist.save();
         console.log("artist: "+artist)
       }
-      //console.log(artist);
       const res = await uploadedTrack.save();
-      //console.log(artists);
-
       
       //Mongo Updated
-      // console.log(res._doc);
 
       //Getting Tracks
       return {
