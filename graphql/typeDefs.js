@@ -4,14 +4,15 @@ module.exports = gql`
   type Album {
     name: String
     albumArt: String
-    tracks: [Track]
+    tracks: [String]
     genre: String
   }
 
   type Track {
     _id: ID!
     name: String
-    artists: [ID]
+    artistsID: [ID]
+    artistsName: [String]
     trackImage: String
     trackUrl: String
     genre: [String]
@@ -24,7 +25,8 @@ module.exports = gql`
     image: String
     description: String
     genre: String
-    tracks: [ID!]
+    tracksId: [ID!]
+    tracksName: [String!]
   }
 
   input AlbumInput {
@@ -41,7 +43,6 @@ module.exports = gql`
     genre: [String]
     duration: Int
     artistsId: [ID]
-    artistsName: [String]
   }
 
   input ArtistInput {
@@ -49,7 +50,6 @@ module.exports = gql`
     image: String
     description: String
     genre: String
-    tracks: [ID!]
   }
 
   type Query {
@@ -63,11 +63,14 @@ module.exports = gql`
     getAllTracks: [Track]!
     getTracksByName(name: String): [Track]
     getTracksByArtistId(ID: ID!): [Track]
+    getTracksByArtistName(name: String!): [Track]
 
     artist(String: String!): Artist!
     getArtists(totalArtist: Int): [Artist]
     getAllArtists: [Artist]
     getArtistsByName(name: String): [Artist]
+    getArtistByTrackId(ID: ID!): [Artist]
+    getArtistByTrackName(name: String!): [Artist]
   }
 
   type Mutation {

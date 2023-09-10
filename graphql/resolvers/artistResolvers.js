@@ -1,8 +1,9 @@
 const Artist = require("../../models/Artist");
+const Track = require("../../models/Track");
 
 module.exports = {
   Mutation: {
-    async addArtist(_, { artistInput: { name, description } }) {
+    async addArtist(_, { artistInput: { name, description, genre } }) {
       const addedArtist = new Artist({
         name: name,
         image: "Image",
@@ -63,6 +64,35 @@ module.exports = {
         },
         ]
       }).limit(10);
-    }
+    },
+    async getArtistByTrackId(_, { ID }) {
+      if(!ID) return await Artist.find().limit(10);
+      track = await Track.findById(ID);
+      const Artists = [];
+      for (let i = 0; i < track.artistsId.length; i++) {
+        Artists.push(await Artist.findById(track.artistsId[i]));
+      }
+      return Artists;
+    },
+    async getArtistByTrackName(_, { name }) {
+      if(!name) return await Artist.find().limit(10);
+      const tracks = await Track.find({
+        $or: [
+          {
+            name: {
+              "$regex": ".*" + name + "",
+              "$options": "i"
+            },
+        },
+        ]
+      }).limit(10);
+      const Artists = [];
+      for (let i = 0; i < tracks.length; i++) {
+        for (let j = 0; j < tracks[i].artistsId.length; j++) {
+          Artists.push(await Artist.findById(tracks[i].artistsId[j]));
+        }
+      }
+      return Artists;
+    },
   },
 };
