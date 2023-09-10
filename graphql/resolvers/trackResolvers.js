@@ -9,24 +9,39 @@ module.exports = {
     ) {
       const uploadedTrack = new Track({
         name: trackInput.name,
-        // artists: trackInput.artists,
         trackImage: trackInput.trackImage,
         trackUrl: trackInput.trackUrl,
         genre: trackInput.genre,
         duration: trackInput.duration,
       });
-      uploadedTrack.artists.push(trackInput.artists)
+      uploadedTrack.artistsId.push(trackInput.artistsId)
+      console.log("uploadedTrack.artistsId: "+trackInput.artistsId)
+      //const artist = await Artist.findById(trackInput.artistsId);
+      console.log(trackInput.artistsId.length)
+      for(i=0; i<trackInput.artistsId.length;i++){
+        console.log("artistId: "+trackInput.artistsId[i])
+        var name = '';
+        const artist = await Artist.findById(trackInput.artistsId[i]).then((artist) => {
+          name = artist.name;
+          console.log("artist: "+name)
+          artist.tracksId.push(uploadedTrack._id);
+        artist.tracksName.push(uploadedTrack.name);
+        artist.save();
+        });
 
-      const artist = await Artist.findById(trackInput.artists.name);
-      //console.log(artist);
-
-      const res = await uploadedTrack.save();
-      if(!artist) {
-        throw new Error("Artist not found");
+        // if(!artist){
+        //   throw new Error("Artist not found, at index: "+i+" of artistsId: "+trackInput.artistsId[i]+"");
+        // }
+        //artists.push(artist);
+        uploadedTrack.artistsName.push(name);
+        // artist.tracksId.push(uploadedTrack._id);
+        // artist.tracksName.push(uploadedTrack.name);
+        //await artist.save();
+        console.log("artist: "+artist)
       }
-      artist.tracks.push(res._id);
-      await artist.save();
-      console.log(artist);
+      //console.log(artist);
+      const res = await uploadedTrack.save();
+      //console.log(artists);
 
       
       //Mongo Updated
@@ -90,12 +105,31 @@ module.exports = {
       }
 
       const artist = await Artist.findById(ID);
-      console.log(artist);
+      //console.log(artist);
+
       const tracks=[];
-      for(i=0; i<artist.tracks.length;i++){
-        tracks.push(Track.findById(artist.tracks[i]));
+      for(i=0; i<artist.tracksId.length;i++){
+        tracks.push(Track.findById(artist.tracksId[i]));
+        console.log(tracks[i])
       }
       return tracks;
-    }
+    },
+    async getTracksByArtistName(_, { name}) {
+      if (!name){
+        return await Track.find()
+          .limit(10);
+      }
+      return await Track.find({
+        $or: [
+          {
+            artistsName: {
+              $regex: ".*" + name + "",
+              $options: "i",
+            },
+          },
+        ],
+      })
+        .limit(10);
+    },  
   }
 };
