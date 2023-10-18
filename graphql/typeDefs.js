@@ -65,7 +65,7 @@ module.exports = gql`
     getTracksByArtistId(ID: ID!): [Track]
     getTracksByArtistName(name: String!): [Track]
 
-    artist(String: String!): Artist!
+    artist(ID: ID!): Artist!
     getArtists(totalArtist: Int): [Artist]
     getAllArtists: [Artist]
     getArtistsByName(name: String): [Artist]

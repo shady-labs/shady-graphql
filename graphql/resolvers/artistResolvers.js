@@ -52,21 +52,21 @@ module.exports = {
     async getAllArtists() {
       return await Artist.find();
     },
-    async getArtistsByName(_, { name}) {
-      if(!name) return await Artist.find().limit(10);
+    async getArtistsByName(_, { name }) {
+      if (!name) return await Artist.find().limit(10);
       return await Artist.find({
         $or: [
           {
             name: {
-              "$regex": ".*" + name + "",
-              "$options": "i"
+              $regex: ".*" + name + "",
+              $options: "i",
             },
-        },
-        ]
+          },
+        ],
       }).limit(10);
     },
     async getArtistByTrackId(_, { ID }) {
-      if(!ID) return await Artist.find().limit(10);
+      if (!ID) return await Artist.find().limit(10);
       track = await Track.findById(ID);
       const Artists = [];
       for (let i = 0; i < track.artistsId.length; i++) {
@@ -75,16 +75,16 @@ module.exports = {
       return Artists;
     },
     async getArtistByTrackName(_, { name }) {
-      if(!name) return await Artist.find().limit(10);
+      if (!name) return await Artist.find().limit(10);
       const tracks = await Track.find({
         $or: [
           {
             name: {
-              "$regex": ".*" + name + "",
-              "$options": "i"
+              $regex: ".*" + name + "",
+              $options: "i",
             },
-        },
-        ]
+          },
+        ],
       }).limit(10);
       const Artists = [];
       for (let i = 0; i < tracks.length; i++) {
