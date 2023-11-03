@@ -1,32 +1,38 @@
 const { gql } = require("apollo-server");
 
 module.exports = gql`
-  type Album {
-    name: String
-    albumArt: String
-    tracks: [String]
-    genre: String
-  }
-
-  type Track {
-    _id: ID!
-    name: String
-    artistsID: [ID!]
-    artistsName: [String!]
-    trackImage: String
-    trackUrl: String
-    genre: [String]
-    duration: Int
-  }
-
   type Artist {
     _id: ID!
     name: String
     image: String
     description: String
     genre: String
-    tracksId: [ID!]
-    tracksName: [String!]
+    albums: [Album]
+  }
+
+  type Album {
+    _id: ID!
+    name: String
+    albumArt: String
+    tracks: [Track]
+    genre: String
+  }
+
+  type Track {
+    _id: ID!
+    name: String
+    artist: [Artist]
+    trackImage: String
+    trackUrl: String
+    genre: [String]
+    duration: Int
+  }
+
+  input ArtistInput {
+    name: String
+    image: String
+    description: String
+    genre: String
   }
 
   input AlbumInput {
@@ -43,13 +49,7 @@ module.exports = gql`
     genre: [String]
     duration: Int
     artistsId: [ID]
-  }
-
-  input ArtistInput {
-    name: String
-    image: String
-    description: String
-    genre: String
+    artist: String
   }
 
   type Query {
