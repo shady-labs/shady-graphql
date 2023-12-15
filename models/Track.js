@@ -7,14 +7,8 @@ const trackSchema = new Schema({
     trackUrl: String,
     genre: Array,
     duration: Number,
-    artistsId: [{
-        type: Schema.Types.ObjectId, ref: "Artist"
-    },
-],
-    artistsName: [{
-        type: Schema.Types.String, ref: "Artist"
-    },
-],
+    artistsId: [String],
+    albumId: String,
 });
 
 module.exports = model("Track", trackSchema);

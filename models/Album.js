@@ -5,6 +5,8 @@ const albumSchema = new Schema({
   name: String,
   albumArt: String,
   tracks:[String],
+  tracksId: [String],
+  artistsId: [String],
   genre: String,
 });
 
