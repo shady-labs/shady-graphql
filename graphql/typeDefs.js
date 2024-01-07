@@ -2,11 +2,21 @@ const { gql } = require("apollo-server");
 
 module.exports = gql`
   type Album {
+    _id: ID!
     name: String
     albumArt: String
     tracks: [String!]!
     artists: [Artist!]!
     genre: String
+    genreEmbed: Genre
+  }
+
+  type Genre {
+    _id: ID!
+    name: String!
+    tracks: [Track]
+    Artists: [Artist]
+    Albums: [Album]
   }
 
   type Track {
@@ -17,6 +27,7 @@ module.exports = gql`
     trackImage: String
     trackUrl: String
     genre: [String]
+    genreEmbed: [Genre]
     duration: Int
     album: Album
     artists: [Artist!]!
@@ -28,10 +39,15 @@ module.exports = gql`
     image: String
     description: String
     genre: String
+    genreEmbed: Genre
     tracksId: [ID!]
     tracksName: [String!]
     tracks: [Track]
     albums: [Album]
+  }
+
+  input GenreInput {
+    name: String
   }
 
   input AlbumInput {
@@ -58,6 +74,8 @@ module.exports = gql`
   }
 
   type Query {
+    Genre: [Genre]
+
     album(ID: ID!): Album!
     getAlbum(totalAlbums: Int): [Album]
     getAllAlbums: [Album]!
@@ -79,6 +97,8 @@ module.exports = gql`
   }
 
   type Mutation {
+    addGenre(genreInput: GenreInput): Genre!
+
     addAlbum(albumInput: AlbumInput): Album!
     removeAlbum(ID: ID!): Boolean
     updateAlbum(ID: ID!, albumInput: AlbumInput): Boolean
