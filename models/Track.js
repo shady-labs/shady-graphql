@@ -1,5 +1,4 @@
 const { model, Schema } = require("mongoose");
-const Artist = require("./Artist")
 
 const trackSchema = new Schema({
     name: String,
@@ -8,7 +7,7 @@ const trackSchema = new Schema({
     genre: Array,
     duration: Number,
     artistsId: [String],
-    albumId: String,
+    albumId: String, 
 });
 
 module.exports = model("Track", trackSchema);
