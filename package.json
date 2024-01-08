@@ -2,7 +2,7 @@
   "name": "shadyserver",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "temp.js",
   "scripts": {
     "start": "nodemon index.js",
     "build": "npm install && babel index.js -d dist",
