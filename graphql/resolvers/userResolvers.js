@@ -1,5 +1,5 @@
 const Artist = require("../../models/Artist");
-const User = require("../../models/user");
+const User = require("../../models/User");
 
 module.exports = {
   Mutation: {
