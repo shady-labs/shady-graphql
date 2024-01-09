@@ -45,6 +45,7 @@ module.exports = gql`
     isArtist: Boolean
     address: String
     region: String
+    email: String
   }
 
   input AlbumInput {
