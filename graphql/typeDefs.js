@@ -29,6 +29,24 @@ module.exports = gql`
     tracksName: [String!]
   }
 
+  type User {
+    _id: ID!
+    name: String
+    image: String
+    isArtist: Boolean
+    address: String!
+    email: String
+    region: String
+  }
+
+  input UserInput {
+    name: String
+    image: String
+    isArtist: Boolean
+    address: String
+    region: String
+  }
+
   input AlbumInput {
     name: String
     albumArt: String
@@ -50,9 +68,15 @@ module.exports = gql`
     image: String
     description: String
     genre: String
+    email: String
+    region: String
   }
 
   type Query {
+    getAllUsers: [User]
+    getUser(ID: ID!): User
+    getUserByName(name: String): [User]
+
     album(ID: ID!): Album!
     getAlbum(totalAlbums: Int): [Album]
     getAllAlbums: [Album]!
@@ -74,6 +98,8 @@ module.exports = gql`
   }
 
   type Mutation {
+    addUser(userInput: UserInput): User
+
     addAlbum(albumInput: AlbumInput): Album!
     removeAlbum(ID: ID!): Boolean
     updateAlbum(ID: ID!, albumInput: AlbumInput): Boolean

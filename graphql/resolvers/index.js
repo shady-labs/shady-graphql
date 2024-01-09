@@ -9,7 +9,6 @@ module.exports = {
     ...artistResolvers.Query,
     ...albumResolvers.Query,
     ...userResolvers.Query
-
   },
   Mutation: {
     ...trackResolvers.Mutation,
