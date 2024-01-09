@@ -11,8 +11,8 @@ module.exports = gql`
   type Track {
     _id: ID!
     name: String
-    artistsID: [ID]
-    artistsName: [String]
+    artistsID: [ID!]
+    artistsName: [String!]
     trackImage: String
     trackUrl: String
     genre: [String]
