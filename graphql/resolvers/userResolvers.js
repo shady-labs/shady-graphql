@@ -1,28 +1,81 @@
 const Artist = require("../../models/Artist");
 const User = require("../../models/User");
+const artistResolvers = require('./artistResolvers')
 
 module.exports = {
   Mutation: {
     async addUser(_, { userInput: { name, image, isArtist, address, email, region } }) {
-    
-      const addedArtist = new User({
+      const searchResult = User.find({
+        $or: [
+          {
+            address: {
+              $regex: ".*" + address + "",
+              $options: "i",
+            },
+          },
+        ],
+      })
+      // console.log((await searchResult).length)
+      if((await searchResult).length==0){
+      console.log("new user")
+      const addedUser = new User({
         name: name,
+
         image: image,
         isArtist: isArtist,
         address: address,
         region: region,
         email: email
       });
-
-      const res = await addedArtist.save();
+      const res = await addedUser.save();
       //Mongo Updated
-      console.log(res._doc);
-
+      // console.log(res._doc);
+      if(isArtist==true) {
+        artistResolvers.Mutation.addArtist(_,{
+          artistInput: {
+            name: name,
+            description: "description",
+            genre: "Artist Genre"
+          }
+        })
+      }
       //Getting Tracks
+      console.log({
+        id: res.id,
+        ...res._doc,
+      })
       return {
         id: res.id,
         ...res._doc,
       };
+    }
+    else{
+      console.log("user already exists")
+      console.log((await User.find({
+        $or: [
+          {
+            address: {
+              $regex: ".*" + address + "",
+              $options: "i",
+            },
+          },
+        ],
+      }))[0])
+      return (await User.find({
+        $or: [
+          {
+            address: {
+              $regex: address,
+            },
+          },
+        ],
+      })[0])
+      // console.log(searchResult)
+      // return {
+      //   id: searchResult[0].id,
+      //   ...searchResult[0]._doc,
+      // }
+    }
     },
   },
 
@@ -35,7 +88,7 @@ module.exports = {
     },
     async getUserByName(_, { name }) {
       if (!name) return await User.find().limit(10);
-      return await Artist.find({
+      return await User.find({
         $or: [
           {
             name: {
