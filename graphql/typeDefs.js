@@ -27,6 +27,7 @@ module.exports = gql`
     genre: String
     tracksId: [ID!]
     tracksName: [String!]
+    address: String
   }
 
   type User {
@@ -71,6 +72,7 @@ module.exports = gql`
     genre: String
     email: String
     region: String
+    address: String
   }
 
   type Query {
