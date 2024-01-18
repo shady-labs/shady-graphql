@@ -6,6 +6,7 @@ module.exports = gql`
     albumArt: String
     tracks: [String]
     genre: String
+    artists: [Artist]
   }
 
   type Track {
@@ -17,6 +18,9 @@ module.exports = gql`
     trackUrl: String
     genre: [String]
     duration: Int
+    artists: [Artist]
+    album: Album
+    genreEmbed: String
   }
 
   type Artist {
