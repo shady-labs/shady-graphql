@@ -7,6 +7,7 @@ const artistSchema = new Schema({
   genre: String,
   tracksId: [{ type: Schema.Types.ObjectId, ref: "Track" }],
   tracksName: [{ type: Schema.Types.String, ref: "Track" }],
+  address: String,
 });
 
 

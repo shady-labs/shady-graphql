@@ -3,12 +3,15 @@ const Track = require("../../models/Track");
 
 module.exports = {
   Mutation: {
-    async addArtist(_, { artistInput: { name, description, genre } }) {
+    async addArtist(_, { artistInput: { name,image, description, genre,email,region, address } }) {
       const addedArtist = new Artist({
         name: name,
-        image: "Image",
+        image: image,
         description: description,
-        genre: "Artist Genre",
+        genre: genre,
+        email: email,
+        region: region,
+        address: address
       });
 
       const res = await addedArtist.save();
