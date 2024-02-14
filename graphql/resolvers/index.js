@@ -26,7 +26,7 @@ module.exports = {
     async artists(parent) {
       let result = []
       for(let i=0; i<=parent.artistsId.length; i++) {
-        console.log(parent.artistsId[i])
+        // console.log(parent.artistsId[i])
         if(parent.artistsId[i]!=null)
           result.push(Artist.findById(parent.artistsId[i]))
       }
@@ -56,4 +56,13 @@ module.exports = {
         return "null";
     },
   },
+  Artist: {
+    async tracks(parent) {
+      // let result = []
+      // console.log()
+      console.log((await Track.find({artistsId: parent._id})))
+      //  result.push(await Track.find({artistsId: parent._id}))
+      return await Track.find({artistsId: parent._id});
+    }
+  }
 };
